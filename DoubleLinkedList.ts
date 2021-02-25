@@ -1,7 +1,7 @@
 export class Node{
     private _value: number
-    private _next: Node
-    private _pre: Node
+    private _next?: Node
+    private _pre?: Node
 
     public get Value(){
         return this._value;
@@ -31,11 +31,17 @@ export class Node{
     constructor(node?:Node);
 
     constructor(input?: number|Node){
-        this.Value=input as number||(input as Node).Value||undefined;
-        this.Next=(input as Node).Next||undefined||null;
-        this.Pre=(input as Node).Pre||undefined||null;
+        this.Value=(input as Node)?.Value||input as number;
+        this.Next=(input as Node)?.Next||null;
+        this.Pre=(input as Node)?.Pre||null;
     }
+
+    toString(callback?) {
+        return callback ? callback(this.Value) : `${this.Value}`;
+      }
 }
+
+
 
 export class DoubleLinkedList
 {
@@ -58,16 +64,42 @@ export class DoubleLinkedList
         }
         return this._length;
     };
-
+    
     public get MaxIndex():number{
         return this._length-1;
     }
-
-    constructor(){
-        this._length=0;
+    
+    constructor();
+    constructor(value?:number);
+    constructor(arr?: number[]);
+    
+    constructor(input?:number|number[])
+    {
+        if((typeof input != typeof new Object())){
+            if ((input as number)==undefined){
+                this._root=null;
+                this._tail=null;
+                this._length=0;
+            }
+            else{
+                this.Add(input as number);
+            }
+        }
+        else{
+            if ((input as number[]).length!=0){
+                for(let i=0; i<(input as number[]).length; i++){
+                    this.Add((input as number[])[i]);
+                }
+            }
+        }
     }
 
+    
     Add(value: number){
+        if (this._length===undefined || isNaN( this._length)){
+            this._length=0;
+        }
+
         if (this._length==0){
             this._root=new Node(value);
             this._tail=this._root;
@@ -84,15 +116,27 @@ export class DoubleLinkedList
             this[this.MaxIndex]=this._tail;
         }
     }
+    toArray() {
+        const nodes = [];
+      
+        let currentNode = this._root;
+        while (currentNode) {
+          nodes.push(currentNode);
+          currentNode = currentNode.Next;
+        }
+        return nodes;
+      }
+    toString(callback?) {
+        return this.toArray().map(node => node.toString(callback)).toString();
+      }
 }
 
 
-let myList = new DoubleLinkedList();
 
-myList.Add(1);
-myList.Add(5);
-myList.Add(3);
-myList.Add(50);
+let arr = [1, 2, 3, 4];
 
-console.log(myList);
-//if (myList.Length==0) console.log(0); else console.log(myList.Length);
+let myList = new DoubleLinkedList(arr);
+myList.Add(0);
+myList.Add(100);
+
+console.log(myList[0+2].Next);

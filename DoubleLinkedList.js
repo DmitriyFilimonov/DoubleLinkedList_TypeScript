@@ -3,9 +3,10 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.DoubleLinkedList = exports.Node = void 0;
 var Node = /** @class */ (function () {
     function Node(input) {
-        this.Value = input || input.Value || undefined;
-        this.Next = input.Next || undefined || null;
-        this.Pre = input.Pre || undefined || null;
+        var _a, _b, _c;
+        this.Value = ((_a = input) === null || _a === void 0 ? void 0 : _a.Value) || input;
+        this.Next = ((_b = input) === null || _b === void 0 ? void 0 : _b.Next) || null;
+        this.Pre = ((_c = input) === null || _c === void 0 ? void 0 : _c.Pre) || null;
     }
     Object.defineProperty(Node.prototype, "Value", {
         get: function () {
@@ -37,12 +38,31 @@ var Node = /** @class */ (function () {
         enumerable: false,
         configurable: true
     });
+    Node.prototype.toString = function (callback) {
+        return callback ? callback(this.Value) : "" + this.Value;
+    };
     return Node;
 }());
 exports.Node = Node;
 var DoubleLinkedList = /** @class */ (function () {
-    function DoubleLinkedList() {
-        this._length = 0;
+    function DoubleLinkedList(input) {
+        if ((typeof input != typeof new Object())) {
+            if (input == undefined) {
+                this._root = null;
+                this._tail = null;
+                this._length = 0;
+            }
+            else {
+                this.Add(input);
+            }
+        }
+        else {
+            if (input.length != 0) {
+                for (var i = 0; i < input.length; i++) {
+                    this.Add(input[i]);
+                }
+            }
+        }
     }
     Object.defineProperty(DoubleLinkedList.prototype, "Length", {
         get: function () {
@@ -71,6 +91,9 @@ var DoubleLinkedList = /** @class */ (function () {
         configurable: true
     });
     DoubleLinkedList.prototype.Add = function (value) {
+        if (this._length === undefined || isNaN(this._length)) {
+            this._length = 0;
+        }
         if (this._length == 0) {
             this._root = new Node(value);
             this._tail = this._root;
@@ -86,13 +109,23 @@ var DoubleLinkedList = /** @class */ (function () {
             this[this.MaxIndex] = this._tail;
         }
     };
+    DoubleLinkedList.prototype.toArray = function () {
+        var nodes = [];
+        var currentNode = this._root;
+        while (currentNode) {
+            nodes.push(currentNode);
+            currentNode = currentNode.Next;
+        }
+        return nodes;
+    };
+    DoubleLinkedList.prototype.toString = function (callback) {
+        return this.toArray().map(function (node) { return node.toString(callback); }).toString();
+    };
     return DoubleLinkedList;
 }());
 exports.DoubleLinkedList = DoubleLinkedList;
-var myList = new DoubleLinkedList();
-myList.Add(1);
-myList.Add(5);
-myList.Add(3);
-myList.Add(50);
-console.log(myList);
-//if (myList.Length==0) console.log(0); else console.log(myList.Length);
+var arr = [1, 2, 3, 4];
+var myList = new DoubleLinkedList(arr);
+myList.Add(0);
+myList.Add(100);
+console.log(myList[0 + 2].Next);
