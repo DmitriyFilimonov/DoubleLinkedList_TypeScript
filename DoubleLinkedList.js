@@ -319,6 +319,38 @@ var DoubleLinkedList = /** @class */ (function () {
         }
         return result;
     };
+    DoubleLinkedList.prototype.AddArrayToEnd = function (array) {
+        if (array.length == 0) {
+            return this;
+        }
+        var input = new DoubleLinkedList(array);
+        if (this._length == 0) {
+            this._root = input._root;
+            this._tail = input._tail;
+            this._length = array.length;
+            this.ActualizeIndexes();
+            return this;
+        }
+        else {
+            if (this._length == 1) {
+                this._root.Next = input._root;
+                this._root.Next.Pre = this._root;
+                this._tail = input._tail;
+                this._length += array.length;
+                this.ActualizeIndexes();
+                return this;
+            }
+            else {
+                var tmp = this._tail;
+                tmp.Next = input._root;
+                input._root.Pre = tmp;
+                this._tail = input._tail;
+                this._length += array.length;
+                this.ActualizeIndexes();
+                return this;
+            }
+        }
+    };
     DoubleLinkedList.prototype.toArray = function () {
         var nodes = [];
         var currentNode = this._root;
@@ -334,6 +366,6 @@ var DoubleLinkedList = /** @class */ (function () {
     return DoubleLinkedList;
 }());
 exports.DoubleLinkedList = DoubleLinkedList;
-var arr = [2, 2, 2, 2, 3, 2];
+var arr = [1, 2];
 var myList = new DoubleLinkedList(arr);
-console.log(myList.DeleteByValueAll(2).toString(0));
+console.log(myList.AddArrayToEnd(arr).toString(0));
