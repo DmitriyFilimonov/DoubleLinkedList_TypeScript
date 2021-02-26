@@ -271,6 +271,20 @@ var DoubleLinkedList = /** @class */ (function () {
         }
         return this;
     };
+    DoubleLinkedList.prototype.FindMinElement = function () {
+        if (this._length != 0) {
+            var min = this._root.Value;
+            var tmp = this._root;
+            while (tmp != null) {
+                if (tmp.Value < min) {
+                    min = tmp.Value;
+                }
+                tmp = tmp.Next;
+            }
+            return min;
+        }
+        return undefined;
+    };
     DoubleLinkedList.prototype.toArray = function () {
         var nodes = [];
         var currentNode = this._root;
@@ -286,6 +300,6 @@ var DoubleLinkedList = /** @class */ (function () {
     return DoubleLinkedList;
 }());
 exports.DoubleLinkedList = DoubleLinkedList;
-var arr = [1, 3, 2, 56, 0];
+var arr = [];
 var myList = new DoubleLinkedList(arr);
-console.log(myList.OverwriteByIndex(4, 600).toString());
+console.log(myList.FindMinElement());

@@ -288,6 +288,22 @@ export class DoubleLinkedList
         return this;
     }
 
+    GetMinElement():number|undefined{
+        if(this._length!=0){
+            let min=this._root.Value;
+            let tmp=this._root;
+            while (tmp!=null){
+                if (tmp.Value<min) {
+                    min=tmp.Value;
+                }
+                tmp = tmp.Next;
+            }
+            return min;
+        }
+        return undefined;
+    }
+
+
     toArray() {
         const nodes = [];
       
@@ -305,7 +321,7 @@ export class DoubleLinkedList
 
 
 
-let arr = [1, 3, 2, 56, 0];
+let arr = [];
 
 let myList = new DoubleLinkedList(arr);
-console.log(myList.OverwriteByIndex(4, 600).toString());
+console.log(myList.GetMinElement());
