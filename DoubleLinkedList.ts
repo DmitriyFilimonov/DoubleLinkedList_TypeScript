@@ -94,8 +94,7 @@ export class DoubleLinkedList
         }
     }
 
-    
-    Add(value: number){
+    private _createFirstNode(value: number){
         if (this._length===undefined || isNaN( this._length)){
             this._length=0;
         }
@@ -103,17 +102,35 @@ export class DoubleLinkedList
         if (this._length==0){
             this._root=new Node(value);
             this._tail=this._root;
-
             this[this._length]=this._root;
             this._length++;
+            return null;
         }
-        else{
+        return value;
+    }
+
+    Add(value: number){         //можно сделать по состоянию
+        value = this._createFirstNode(value);
+        
+        if (value!=null){
             let tmp = this._tail;
             this._tail.Next=new Node(value);
             this._tail=this._tail.Next;
             this._tail.Pre=tmp;
             this._length++;
             this[this.MaxIndex]=this._tail;
+        }
+    }
+
+    Unshift(value:number){
+        value = this._createFirstNode(value);
+
+        if (value!=null){
+            let tmp = this._root;
+            this._root = new Node(value);
+            this._root.Next = tmp;
+            tmp.Pre = this._root;
+            this._length++;
         }
     }
     toArray() {
@@ -137,6 +154,6 @@ let arr = [1, 2, 3, 4];
 
 let myList = new DoubleLinkedList(arr);
 myList.Add(0);
-myList.Add(100);
+myList.Unshift(100);
 
-console.log(myList[0+2].Next);
+console.log(myList.toString());
