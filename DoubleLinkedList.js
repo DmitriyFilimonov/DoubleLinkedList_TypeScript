@@ -319,7 +319,7 @@ var DoubleLinkedList = /** @class */ (function () {
         }
         return result;
     };
-    DoubleLinkedList.prototype.AddArrayToEnd = function (array) {
+    DoubleLinkedList.prototype.AddArray = function (array) {
         if (array.length == 0) {
             return this;
         }
@@ -351,6 +351,67 @@ var DoubleLinkedList = /** @class */ (function () {
             }
         }
     };
+    DoubleLinkedList.prototype.UnshiftArray = function (array) {
+        var input = new DoubleLinkedList(array);
+        if (this._length == 0) {
+            this._root = input._root;
+            this._tail = input._tail;
+            this._length = array.length;
+            this.ActualizeIndexes();
+            return this;
+        }
+        if (array.length == 0) {
+            return this;
+        }
+        if (array.length == 1) {
+            this.Add(array[0]);
+            return this;
+        }
+        else {
+            var tmp = input[input.MaxIndex];
+            tmp.Next = this._root;
+            tmp.Next.Pre = tmp;
+            this._root = input._root;
+            this._length += array.length;
+            this.ActualizeIndexes();
+            return this;
+        }
+    };
+    DoubleLinkedList.prototype.AddArrayByIndex = function (index, array) {
+        if (index == this._length) {
+            this.AddArray(array);
+            return this;
+        }
+        if (index == 0) {
+            this.UnshiftArray(array);
+            return this;
+        }
+        else {
+            if (array.length == 0) {
+                return;
+            }
+            if (array.length == 1) {
+                this.AddByIndex(index, array[0]);
+                return this;
+            }
+            else {
+                var input = new DoubleLinkedList(array);
+                var tmp = this._root;
+                var tmp2 = input._tail;
+                for (var i = 1; i < index; i++) {
+                    tmp = tmp.Next;
+                }
+                var current = tmp.Next;
+                tmp.Next = input._root;
+                tmp.Next.Pre = tmp;
+                tmp2.Next = current;
+                tmp2.Next.Pre = tmp2;
+                this._length += input.Length;
+                this.ActualizeIndexes();
+                return this;
+            }
+        }
+    };
     DoubleLinkedList.prototype.toArray = function () {
         var nodes = [];
         var currentNode = this._root;
@@ -366,6 +427,7 @@ var DoubleLinkedList = /** @class */ (function () {
     return DoubleLinkedList;
 }());
 exports.DoubleLinkedList = DoubleLinkedList;
-var arr = [1, 2];
+var arr = [1, 2, 3];
+var arr1 = [1, 2];
 var myList = new DoubleLinkedList(arr);
-console.log(myList.AddArrayToEnd(arr).toString(0));
+console.log(myList.AddArrayByIndex(1, arr1));

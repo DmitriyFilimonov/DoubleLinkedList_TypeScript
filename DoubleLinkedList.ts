@@ -339,7 +339,7 @@ export class DoubleLinkedList {
         return result;
     }
 
-    AddArrayToEnd(array: number[]) {
+    AddArray(array: number[]) {
         if (array.length == 0) {
             return this;
         }
@@ -371,6 +371,68 @@ export class DoubleLinkedList {
             }
         }
     }
+    UnshiftArray(array:number[]){
+        let input = new DoubleLinkedList(array);
+        if (this._length == 0){
+            this._root = input._root;
+            this._tail = input._tail;
+            this._length = array.length;
+            this.ActualizeIndexes();
+            return this;
+        }
+        if (array.length == 0){
+            return this;
+        }
+        if (array.length == 1){
+            this.Add(array[0]);
+            return this;
+        }
+        else{
+            let tmp = input[input.MaxIndex];
+            tmp.Next = this._root;
+            tmp.Next.Pre = tmp;
+            this._root = input._root;
+            this._length += array.length;
+            this.ActualizeIndexes();
+            return this;
+        }
+    }
+
+    AddArrayByIndex(index:number, array:number[]){
+        if (index == this._length){
+            this.AddArray(array);
+            return this;
+        }
+        if (index == 0){
+            this.UnshiftArray(array);
+            return this;
+        }
+        else{
+            if (array.length == 0){
+                return;
+            }
+            if (array.length == 1){
+                this.AddByIndex(index, array[0]);
+                return this;
+            }
+            else{
+                let input = new DoubleLinkedList(array);
+                let tmp = this._root;
+                let tmp2 = input._tail;
+                for (let i = 1; i < index; i++){
+                    tmp = tmp.Next;
+                }
+                let current = tmp.Next;
+                tmp.Next = input._root;
+                tmp.Next.Pre = tmp;
+                tmp2.Next = current;
+                tmp2.Next.Pre = tmp2;
+                this._length += input.Length;
+                this.ActualizeIndexes();
+                return this;
+            }
+        }
+    }
 
     toArray() {
         const nodes = [];
@@ -388,8 +450,8 @@ export class DoubleLinkedList {
 }
 
 
-
-let arr = [1, 2];
+let arr = [1, 2, 3];
+let arr1 = [1, 2];
 
 let myList = new DoubleLinkedList(arr);
-console.log(myList.AddArrayToEnd(arr).toString(0));
+console.log(myList.AddArrayByIndex(1, arr1));
