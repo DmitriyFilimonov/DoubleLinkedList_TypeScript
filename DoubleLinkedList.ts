@@ -132,10 +132,10 @@ export class DoubleLinkedList
             tmp.Pre = this._root;
             this._length++;
             
-            this.ActualizeIndexes();
+            this.ExpandIndexes();
         }
     }
-    private ActualizeIndexes(){
+    private ExpandIndexes(){
         let tmp = this._root;
         let i=0;
         while(tmp!=null){
@@ -174,11 +174,27 @@ export class DoubleLinkedList
                 this.Add(value);
                 return this;
             }
-            this.ActualizeIndexes();
+            this.ExpandIndexes();
         }
         return this;
     }
 
+    DeleteLast(){
+    if (this._length != 0){
+        if (this._length == 1) {
+            this._tail = null;
+            this._root = this._tail;
+            delete this[this.MaxIndex];
+            this._length--;
+            return this;
+        }
+        this._tail = this._tail.Pre;
+        this._tail.Next = null;
+        delete this[this.MaxIndex];
+        this._length--;
+        }
+        return this;
+    }
 
     toArray() {
         const nodes = [];
@@ -197,7 +213,7 @@ export class DoubleLinkedList
 
 
 
-let arr = [1, 2, 3, 4, 5];
+let arr = [1, 2, 3, 4];
 
 let myList = new DoubleLinkedList(arr);
-console.log(myList.AddByIndex(5, 6).toString());
+console.log(myList.DeleteLast());

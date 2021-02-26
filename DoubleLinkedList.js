@@ -122,10 +122,10 @@ var DoubleLinkedList = /** @class */ (function () {
             this._root.Next = tmp;
             tmp.Pre = this._root;
             this._length++;
-            this.ActualizeIndexes();
+            this.ExpandIndexes();
         }
     };
-    DoubleLinkedList.prototype.ActualizeIndexes = function () {
+    DoubleLinkedList.prototype.ExpandIndexes = function () {
         var tmp = this._root;
         var i = 0;
         while (tmp != null) {
@@ -164,7 +164,23 @@ var DoubleLinkedList = /** @class */ (function () {
                 this.Add(value);
                 return this;
             }
-            this.ActualizeIndexes();
+            this.ExpandIndexes();
+        }
+        return this;
+    };
+    DoubleLinkedList.prototype.DeleteLast = function () {
+        if (this._length != 0) {
+            if (this._length == 1) {
+                this._tail = null;
+                this._root = this._tail;
+                delete this[this.MaxIndex];
+                this._length--;
+                return this;
+            }
+            this._tail = this._tail.Pre;
+            this._tail.Next = null;
+            delete this[this.MaxIndex];
+            this._length--;
         }
         return this;
     };
@@ -183,6 +199,6 @@ var DoubleLinkedList = /** @class */ (function () {
     return DoubleLinkedList;
 }());
 exports.DoubleLinkedList = DoubleLinkedList;
-var arr = [1, 2, 3, 4, 5];
+var arr = [1, 2, 3, 4];
 var myList = new DoubleLinkedList(arr);
-console.log(myList.AddByIndex(5, 6).toString());
+console.log(myList.DeleteLast());
