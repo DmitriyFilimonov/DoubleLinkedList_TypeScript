@@ -303,6 +303,21 @@ export class DoubleLinkedList
         return undefined;
     }
 
+    GetMaxElement():number|undefined{
+        if(this._length!=0){
+            let max=this._root.Value;
+            let tmp=this._root;
+            while (tmp!=null){
+                if (tmp.Value>max) {
+                    max=tmp.Value;
+                }
+                tmp=tmp.Next;
+            }
+            return max;
+        }
+        
+        return undefined;
+    }
 
     toArray() {
         const nodes = [];
@@ -321,7 +336,7 @@ export class DoubleLinkedList
 
 
 
-let arr = [];
+let arr = [1, -3, 2];
 
 let myList = new DoubleLinkedList(arr);
-console.log(myList.GetMinElement());
+console.log(myList.GetMaxElement());

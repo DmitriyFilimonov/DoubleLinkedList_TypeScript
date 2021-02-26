@@ -271,7 +271,7 @@ var DoubleLinkedList = /** @class */ (function () {
         }
         return this;
     };
-    DoubleLinkedList.prototype.FindMinElement = function () {
+    DoubleLinkedList.prototype.GetMinElement = function () {
         if (this._length != 0) {
             var min = this._root.Value;
             var tmp = this._root;
@@ -282,6 +282,20 @@ var DoubleLinkedList = /** @class */ (function () {
                 tmp = tmp.Next;
             }
             return min;
+        }
+        return undefined;
+    };
+    DoubleLinkedList.prototype.GetMaxElement = function () {
+        if (this._length != 0) {
+            var max = this._root.Value;
+            var tmp = this._root;
+            while (tmp != null) {
+                if (tmp.Value > max) {
+                    max = tmp.Value;
+                }
+                tmp = tmp.Next;
+            }
+            return max;
         }
         return undefined;
     };
@@ -300,6 +314,6 @@ var DoubleLinkedList = /** @class */ (function () {
     return DoubleLinkedList;
 }());
 exports.DoubleLinkedList = DoubleLinkedList;
-var arr = [];
+var arr = [1, -3, 2];
 var myList = new DoubleLinkedList(arr);
-console.log(myList.FindMinElement());
+console.log(myList.GetMaxElement());
