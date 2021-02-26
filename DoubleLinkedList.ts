@@ -224,7 +224,7 @@ export class DoubleLinkedList
             if (index==0) this.DeleteFirst();
             else if (index==this.MaxIndex) this.DeleteLast();
             else{
-                if(index<= this._length / 2){
+                if(index<= this._length / 2 +1){
                     let tmp=this._root;
                     for (let i = 1; i < index; i++)
                     {
@@ -232,6 +232,8 @@ export class DoubleLinkedList
                     }
                     tmp.Next=tmp.Next.Next;
                     tmp.Next.Pre=tmp;
+
+                    
                     delete this[this.MaxIndex];
                     this._length--;
                     this.ActualizeIndexes();
@@ -274,6 +276,18 @@ export class DoubleLinkedList
         return index;
     }
 
+    OverwriteByIndex(index:number, value:number){
+        if (index == 0){
+            this.DeleteFirst();
+            this.Unshift(value);
+        }
+        else{
+            this.AddByIndex(index, value);
+            this.DeleteByIndex(index+1);
+        }
+        return this;
+    }
+
     toArray() {
         const nodes = [];
       
@@ -291,7 +305,7 @@ export class DoubleLinkedList
 
 
 
-let arr = [1];
+let arr = [1, 3, 2, 56, 0];
 
 let myList = new DoubleLinkedList(arr);
-console.log(myList.GetIndexByValue(2));
+console.log(myList.OverwriteByIndex(4, 600).toString());

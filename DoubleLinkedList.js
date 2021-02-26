@@ -214,7 +214,7 @@ var DoubleLinkedList = /** @class */ (function () {
             else if (index == this.MaxIndex)
                 this.DeleteLast();
             else {
-                if (index <= this._length / 2) {
+                if (index <= this._length / 2 + 1) {
                     var tmp = this._root;
                     for (var i = 1; i < index; i++) {
                         tmp = tmp.Next;
@@ -260,6 +260,17 @@ var DoubleLinkedList = /** @class */ (function () {
         }
         return index;
     };
+    DoubleLinkedList.prototype.OverwriteByIndex = function (index, value) {
+        if (index == 0) {
+            this.DeleteFirst();
+            this.Unshift(value);
+        }
+        else {
+            this.AddByIndex(index, value);
+            this.DeleteByIndex(index + 1);
+        }
+        return this;
+    };
     DoubleLinkedList.prototype.toArray = function () {
         var nodes = [];
         var currentNode = this._root;
@@ -275,6 +286,6 @@ var DoubleLinkedList = /** @class */ (function () {
     return DoubleLinkedList;
 }());
 exports.DoubleLinkedList = DoubleLinkedList;
-var arr = [1];
+var arr = [1, 3, 2, 56, 0];
 var myList = new DoubleLinkedList(arr);
-console.log(myList.GetIndexByValue(2));
+console.log(myList.OverwriteByIndex(4, 600).toString());
