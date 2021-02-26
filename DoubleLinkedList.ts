@@ -35,10 +35,6 @@ export class Node {
         this.Next = (input as Node)?.Next || null;
         this.Pre = (input as Node)?.Pre || null;
     }
-
-    toString(callback?) {
-        return callback ? callback(this.Value) : `${this.Value}`;
-    }
 }
 
 
@@ -514,24 +510,15 @@ export class DoubleLinkedList {
         return this;
     }
 
-    toArray() {
-        const nodes = [];
-
-        let currentNode = this._root;
-        while (currentNode) {
-            nodes.push(currentNode);
-            currentNode = currentNode.Next;
+    ToString(){
+        let s = "";
+        if (this._root != null){
+            let tmp = this._root;
+            while (tmp != null){
+                s += tmp.Value + ";";
+                tmp = tmp.Next;
+            }
         }
-        return nodes;
-    }
-    toString(callback?) {
-        return this.toArray().map(node => node.toString(callback)).toString();
+        return s;
     }
 }
-
-
-let arr = [6, 1, 2, 3, 4, 5];
-let arr1 = [1, 2];
-
-let myList = new DoubleLinkedList(arr1);
-console.log(myList.Reverse().toString());
