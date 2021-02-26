@@ -412,6 +412,82 @@ var DoubleLinkedList = /** @class */ (function () {
             }
         }
     };
+    DoubleLinkedList.prototype.DeleteNElementsFromEnd = function (number) {
+        for (var i = 0; i < number; i++) {
+            this.DeleteLast();
+        }
+        return this;
+    };
+    DoubleLinkedList.prototype.DeleteNElementsFromStart = function (number) {
+        for (var i = 0; i < number; i++) {
+            this.DeleteFirst();
+        }
+        return this;
+    };
+    DoubleLinkedList.prototype.DeleteNElementsByIndex = function (number, index) {
+        for (var i = 0; i < number; i++) {
+            this.DeleteByIndex(index);
+        }
+        return this;
+    };
+    DoubleLinkedList.prototype.SortAscend = function () {
+        if (this._length != 0) {
+            var newRoot = new Node(this.GetMinElement());
+            var length_1 = this._length;
+            this.DeleteByValueFirst(this.GetMinElement());
+            var tmpNode = newRoot;
+            for (var i = 1; i < length_1; i++) {
+                tmpNode.Next = new Node(this.GetMinElement());
+                tmpNode.Next.Pre = tmpNode;
+                this.DeleteByValueFirst(this.GetMinElement());
+                tmpNode = tmpNode.Next;
+            }
+            this._tail = tmpNode;
+            this._length = length_1;
+            this._root = newRoot;
+            this.ActualizeIndexes();
+            return this;
+        }
+        else
+            return this;
+    };
+    DoubleLinkedList.prototype.SortDescend = function () {
+        if (this._length != 0) {
+            var newRoot = new Node(this.GetMaxElement());
+            var tmpLength = this._length;
+            this.DeleteByValueFirst(this.GetMaxElement());
+            var tmpNode = newRoot;
+            for (var i = 1; i < tmpLength; i++) {
+                tmpNode.Next = new Node(this.GetMaxElement());
+                tmpNode.Next.Pre = tmpNode;
+                this.DeleteByValueFirst(this.GetMaxElement());
+                tmpNode = tmpNode.Next;
+            }
+            this._tail = tmpNode;
+            this._length = tmpLength;
+            this._root = newRoot;
+            this.ActualizeIndexes();
+            return this;
+        }
+        else
+            return this;
+    };
+    DoubleLinkedList.prototype.Reverse = function () {
+        var currentNode = this._root;
+        var prevNode = null;
+        var tmpNextNode = null;
+        while (currentNode != null) {
+            tmpNextNode = currentNode.Next;
+            prevNode = currentNode.Pre;
+            currentNode.Next = prevNode;
+            currentNode.Pre = tmpNextNode;
+            prevNode = currentNode;
+            currentNode = tmpNextNode;
+        }
+        this._tail = this._root;
+        this._root = prevNode;
+        return this;
+    };
     DoubleLinkedList.prototype.toArray = function () {
         var nodes = [];
         var currentNode = this._root;
@@ -427,7 +503,7 @@ var DoubleLinkedList = /** @class */ (function () {
     return DoubleLinkedList;
 }());
 exports.DoubleLinkedList = DoubleLinkedList;
-var arr = [1, 2, 3];
+var arr = [6, 1, 2, 3, 4, 5];
 var arr1 = [1, 2];
-var myList = new DoubleLinkedList(arr);
-console.log(myList.AddArrayByIndex(1, arr1));
+var myList = new DoubleLinkedList(arr1);
+console.log(myList.Reverse().toString());

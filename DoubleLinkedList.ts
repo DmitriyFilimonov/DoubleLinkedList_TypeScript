@@ -434,6 +434,86 @@ export class DoubleLinkedList {
         }
     }
 
+    DeleteNElementsFromEnd(number:number){
+        for (let i = 0; i < number; i++){
+            this.DeleteLast();
+        }
+        return this;
+    }
+
+    DeleteNElementsFromStart(number:number){
+        for (let i = 0; i < number; i++){
+            this.DeleteFirst();
+        }
+        return this;
+    }
+
+    DeleteNElementsByIndex(number:number, index:number){
+        for (let i = 0; i < number; i++){
+            this.DeleteByIndex(index);
+        }
+        return this;
+    }
+
+    SortAscend(){
+        if (this._length != 0){
+            let newRoot = new Node(this.GetMinElement());
+            let length = this._length;
+            this.DeleteByValueFirst(this.GetMinElement());
+            let tmpNode = newRoot;
+            for (let i = 1; i < length; i++){
+                tmpNode.Next = new Node(this.GetMinElement());
+                tmpNode.Next.Pre = tmpNode;
+                this.DeleteByValueFirst(this.GetMinElement());
+                tmpNode = tmpNode.Next;
+            }
+            this._tail = tmpNode;
+            this._length = length;
+            this._root = newRoot;
+            this.ActualizeIndexes();
+            return this;
+        }
+        else return this;
+    }
+
+    SortDescend() {
+        if (this._length != 0){
+            let newRoot = new Node(this.GetMaxElement());
+            let tmpLength = this._length;
+            this.DeleteByValueFirst(this.GetMaxElement());
+            let tmpNode = newRoot;
+            for (let i = 1; i < tmpLength; i++){
+                tmpNode.Next = new Node(this.GetMaxElement());
+                tmpNode.Next.Pre = tmpNode;
+                this.DeleteByValueFirst(this.GetMaxElement());
+                tmpNode = tmpNode.Next;
+            }
+            this._tail = tmpNode;
+            this._length = tmpLength;
+            this._root = newRoot;
+            this.ActualizeIndexes()
+            return this;
+        }
+        else return this;
+    }
+
+    Reverse(){
+        let currentNode = this._root;
+        let prevNode = null;
+        let tmpNextNode = null;
+        while (currentNode!=null) {
+            tmpNextNode = currentNode.Next;
+            prevNode = currentNode.Pre;
+            currentNode.Next = prevNode;
+            currentNode.Pre = tmpNextNode;
+            prevNode = currentNode;
+            currentNode = tmpNextNode;
+        }
+        this._tail = this._root;
+        this._root = prevNode;
+        return this;
+    }
+
     toArray() {
         const nodes = [];
 
@@ -450,8 +530,8 @@ export class DoubleLinkedList {
 }
 
 
-let arr = [1, 2, 3];
+let arr = [6, 1, 2, 3, 4, 5];
 let arr1 = [1, 2];
 
-let myList = new DoubleLinkedList(arr);
-console.log(myList.AddArrayByIndex(1, arr1));
+let myList = new DoubleLinkedList(arr1);
+console.log(myList.Reverse().toString());
