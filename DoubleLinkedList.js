@@ -122,10 +122,10 @@ var DoubleLinkedList = /** @class */ (function () {
             this._root.Next = tmp;
             tmp.Pre = this._root;
             this._length++;
-            this.ExpandIndexes();
+            this.ActualizeIndexes();
         }
     };
-    DoubleLinkedList.prototype.ExpandIndexes = function () {
+    DoubleLinkedList.prototype.ActualizeIndexes = function () {
         var tmp = this._root;
         var i = 0;
         while (tmp != null) {
@@ -164,7 +164,7 @@ var DoubleLinkedList = /** @class */ (function () {
                 this.Add(value);
                 return this;
             }
-            this.ExpandIndexes();
+            this.ActualizeIndexes();
         }
         return this;
     };
@@ -184,6 +184,24 @@ var DoubleLinkedList = /** @class */ (function () {
         }
         return this;
     };
+    DoubleLinkedList.prototype.DeleteFirst = function () {
+        if (this._length != 0) {
+            if (this._length == 1) {
+                this._root = null;
+                this._tail = this._root;
+                delete this[this.MaxIndex];
+                this._length--;
+                this.ActualizeIndexes();
+                return this;
+            }
+            this._root = this._root.Next;
+            this._root.Pre = null;
+            delete this[this.MaxIndex];
+            this._length--;
+            this.ActualizeIndexes();
+        }
+        return this;
+    };
     DoubleLinkedList.prototype.toArray = function () {
         var nodes = [];
         var currentNode = this._root;
@@ -199,6 +217,6 @@ var DoubleLinkedList = /** @class */ (function () {
     return DoubleLinkedList;
 }());
 exports.DoubleLinkedList = DoubleLinkedList;
-var arr = [1, 2, 3, 4];
+var arr = [1, 2];
 var myList = new DoubleLinkedList(arr);
-console.log(myList.DeleteLast());
+console.log(myList.DeleteFirst());
