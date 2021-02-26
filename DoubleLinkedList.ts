@@ -94,7 +94,7 @@ export class DoubleLinkedList
         }
     }
 
-    private _createFirstNode(value: number){
+    private CreateFirstNode(value: number){
         if (this._length===undefined || isNaN( this._length)){
             this._length=0;
         }
@@ -110,7 +110,7 @@ export class DoubleLinkedList
     }
 
     Add(value: number){         //можно сделать по состоянию
-        value = this._createFirstNode(value);
+        value = this.CreateFirstNode(value);
         
         if (value!=null){
             let tmp = this._tail;
@@ -123,7 +123,7 @@ export class DoubleLinkedList
     }
 
     Unshift(value:number){
-        value = this._createFirstNode(value);
+        value = this.CreateFirstNode(value);
 
         if (value!=null){
             let tmp = this._root;
@@ -131,8 +131,18 @@ export class DoubleLinkedList
             this._root.Next = tmp;
             tmp.Pre = this._root;
             this._length++;
+            
+            this.ActualizeIndexes();
         }
     }
+    private ActualizeIndexes(){
+        let tmp = this._root;
+        let i=0;
+        while(tmp!=null){
+            this[i]=tmp;
+            i++;
+            tmp=tmp.Next;
+    }}
     toArray() {
         const nodes = [];
       
@@ -150,10 +160,11 @@ export class DoubleLinkedList
 
 
 
-let arr = [1, 2, 3, 4];
+let arr = [1];
 
 let myList = new DoubleLinkedList(arr);
-myList.Add(0);
 myList.Unshift(100);
+myList.Unshift(4);
+myList.Add(7);
 
-console.log(myList.toString());
+console.log(myList);

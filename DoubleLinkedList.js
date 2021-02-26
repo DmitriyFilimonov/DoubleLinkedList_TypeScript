@@ -90,7 +90,7 @@ var DoubleLinkedList = /** @class */ (function () {
         enumerable: false,
         configurable: true
     });
-    DoubleLinkedList.prototype._createFirstNode = function (value) {
+    DoubleLinkedList.prototype.CreateFirstNode = function (value) {
         if (this._length === undefined || isNaN(this._length)) {
             this._length = 0;
         }
@@ -104,7 +104,7 @@ var DoubleLinkedList = /** @class */ (function () {
         return value;
     };
     DoubleLinkedList.prototype.Add = function (value) {
-        value = this._createFirstNode(value);
+        value = this.CreateFirstNode(value);
         if (value != null) {
             var tmp = this._tail;
             this._tail.Next = new Node(value);
@@ -115,13 +115,23 @@ var DoubleLinkedList = /** @class */ (function () {
         }
     };
     DoubleLinkedList.prototype.Unshift = function (value) {
-        value = this._createFirstNode(value);
+        value = this.CreateFirstNode(value);
         if (value != null) {
             var tmp = this._root;
             this._root = new Node(value);
             this._root.Next = tmp;
             tmp.Pre = this._root;
             this._length++;
+            this.ActualizeIndexes();
+        }
+    };
+    DoubleLinkedList.prototype.ActualizeIndexes = function () {
+        var tmp = this._root;
+        var i = 0;
+        while (tmp != null) {
+            this[i] = tmp;
+            i++;
+            tmp = tmp.Next;
         }
     };
     DoubleLinkedList.prototype.toArray = function () {
@@ -139,8 +149,9 @@ var DoubleLinkedList = /** @class */ (function () {
     return DoubleLinkedList;
 }());
 exports.DoubleLinkedList = DoubleLinkedList;
-var arr = [1, 2, 3, 4];
+var arr = [1];
 var myList = new DoubleLinkedList(arr);
-myList.Add(0);
 myList.Unshift(100);
-console.log(myList.toString());
+myList.Unshift(4);
+myList.Add(7);
+console.log(myList);
