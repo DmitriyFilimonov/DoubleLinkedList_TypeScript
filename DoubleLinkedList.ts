@@ -143,6 +143,43 @@ export class DoubleLinkedList
             i++;
             tmp=tmp.Next;
     }}
+
+    AddByIndex(index:number, value:number){
+        if (index<=this._length){
+            if(index< this._length / 2){
+                let tmp = this._root;
+                for (let i=1; i<index; i++){
+                    tmp=tmp.Next
+                }
+                let tmp2 = tmp.Next;
+                tmp.Next=new Node(value);
+                tmp.Next.Next=tmp2;
+                tmp.Next.Next.Pre=tmp.Next;
+                tmp.Next.Pre=tmp;
+                this._length++;
+            }
+            else if (index!=this._length){
+                let tmp = this._tail;
+                for (let i=this._length-2; i>=index; i--){
+                    tmp=tmp.Pre
+                }
+                let tmp2 = tmp.Pre;
+                tmp.Pre=new Node(value);
+                tmp.Pre.Pre=tmp2;
+                tmp.Pre.Pre.Next=tmp.Pre;
+                tmp.Pre.Next=tmp;
+                this._length++;
+            }
+            else{
+                this.Add(value);
+                return this;
+            }
+            this.ActualizeIndexes();
+        }
+        return this;
+    }
+
+
     toArray() {
         const nodes = [];
       
@@ -160,11 +197,7 @@ export class DoubleLinkedList
 
 
 
-let arr = [1];
+let arr = [1, 2, 3, 4, 5];
 
 let myList = new DoubleLinkedList(arr);
-myList.Unshift(100);
-myList.Unshift(4);
-myList.Add(7);
-
-console.log(myList);
+console.log(myList.AddByIndex(5, 6).toString());
