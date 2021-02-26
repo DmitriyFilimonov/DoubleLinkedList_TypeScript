@@ -214,6 +214,41 @@ export class DoubleLinkedList
         }
         return this;
     }
+    DeleteByIndex(index:number){
+        if(this._length!=0 && index<=this.MaxIndex){
+            if (index==0) this.DeleteFirst();
+            else if (index==this.MaxIndex) this.DeleteLast();
+            else{
+                if(index<= this._length / 2){
+                    let tmp=this._root;
+                    for (let i = 1; i < index; i++)
+                    {
+                        tmp=tmp.Next;
+                    }
+                    tmp.Next=tmp.Next.Next;
+                    tmp.Next.Pre=tmp;
+                    delete this[this.MaxIndex];
+                    this._length--;
+                    this.ActualizeIndexes();
+                    return this;
+                }
+                else{
+                    let tmp=this._tail;
+                    for (let i = this.MaxIndex-1; i >= index; i--)
+                    {
+                        tmp=tmp.Pre;
+                    }
+                    tmp.Pre=tmp.Pre.Pre;
+                    tmp.Pre.Next=tmp;
+                }
+                delete this[this.MaxIndex];
+                this._length--;
+                this.ActualizeIndexes();
+            }
+            return this;
+        }
+        else return this;
+    }
 
     toArray() {
         const nodes = [];
@@ -232,7 +267,7 @@ export class DoubleLinkedList
 
 
 
-let arr = [1, 2];
+let arr = [1, 2, 3, 4];
 
 let myList = new DoubleLinkedList(arr);
-console.log(myList.DeleteFirst());
+console.log(myList.DeleteByIndex(2));
