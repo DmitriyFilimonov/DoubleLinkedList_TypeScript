@@ -299,6 +299,26 @@ var DoubleLinkedList = /** @class */ (function () {
         }
         return undefined;
     };
+    DoubleLinkedList.prototype.GetIndexOfMinElement = function () {
+        return this.GetIndexByValue(this.GetMinElement());
+    };
+    DoubleLinkedList.prototype.FindIndexOfMaxElement = function () {
+        return this.GetIndexByValue(this.GetMaxElement());
+    };
+    DoubleLinkedList.prototype.DeleteByValueFirst = function (value) {
+        if (this.GetIndexByValue(value) != -1) {
+            this.DeleteByIndex(this.GetIndexByValue(value));
+            return this;
+        }
+        return -1;
+    };
+    DoubleLinkedList.prototype.DeleteByValueAll = function (value) {
+        var result = -1;
+        while (this.GetIndexByValue(value) != -1) {
+            result = this.DeleteByValueFirst(value);
+        }
+        return result;
+    };
     DoubleLinkedList.prototype.toArray = function () {
         var nodes = [];
         var currentNode = this._root;
@@ -314,6 +334,6 @@ var DoubleLinkedList = /** @class */ (function () {
     return DoubleLinkedList;
 }());
 exports.DoubleLinkedList = DoubleLinkedList;
-var arr = [1, -3, 2];
+var arr = [2, 2, 2, 2, 3, 2];
 var myList = new DoubleLinkedList(arr);
-console.log(myList.GetMaxElement());
+console.log(myList.DeleteByValueAll(2).toString(0));

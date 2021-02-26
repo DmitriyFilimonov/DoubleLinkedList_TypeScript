@@ -319,6 +319,30 @@ export class DoubleLinkedList
         return undefined;
     }
 
+    GetIndexOfMinElement(){
+        return this.GetIndexByValue(this.GetMinElement());
+    }
+
+    FindIndexOfMaxElement(){
+        return this.GetIndexByValue(this.GetMaxElement());
+    }
+
+    DeleteByValueFirst(value:number){
+        if (this.GetIndexByValue(value)!= -1){
+            this.DeleteByIndex(this.GetIndexByValue(value));
+            return this;
+        }
+        return -1;
+    }
+
+    DeleteByValueAll(value:number){
+        let result:number|DoubleLinkedList = -1;
+        while (this.GetIndexByValue(value)!= -1){
+            result = this.DeleteByValueFirst(value);
+        }
+        return result;
+    }
+
     toArray() {
         const nodes = [];
       
@@ -336,7 +360,7 @@ export class DoubleLinkedList
 
 
 
-let arr = [1, -3, 2];
+let arr = [2, 2, 2, 2, 3, 2];
 
 let myList = new DoubleLinkedList(arr);
-console.log(myList.GetMaxElement());
+console.log(myList.DeleteByValueAll(2).toString(0));
