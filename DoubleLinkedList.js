@@ -62,6 +62,11 @@ var DoubleLinkedList = /** @class */ (function () {
                     this.Add(input[i]);
                 }
             }
+            else {
+                this._root = null;
+                this._tail = null;
+                this._length = 0;
+            }
         }
     }
     Object.defineProperty(DoubleLinkedList.prototype, "Length", {
@@ -238,6 +243,23 @@ var DoubleLinkedList = /** @class */ (function () {
         else
             return this;
     };
+    DoubleLinkedList.prototype.GetIndexByValue = function (value) {
+        var index = -1;
+        if (this._length == 0) {
+            return index;
+        }
+        if (this._root.Value == value && this._length == 1) {
+            return index = 0;
+        }
+        var tmp = this._root;
+        for (var i = 0; i < this._length; i++) {
+            if (tmp.Value == value) {
+                return i;
+            }
+            tmp = tmp.Next;
+        }
+        return index;
+    };
     DoubleLinkedList.prototype.toArray = function () {
         var nodes = [];
         var currentNode = this._root;
@@ -253,6 +275,6 @@ var DoubleLinkedList = /** @class */ (function () {
     return DoubleLinkedList;
 }());
 exports.DoubleLinkedList = DoubleLinkedList;
-var arr = [1, 2, 3, 4];
+var arr = [1];
 var myList = new DoubleLinkedList(arr);
-console.log(myList.DeleteByIndex(2));
+console.log(myList.GetIndexByValue(2));

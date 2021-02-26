@@ -91,6 +91,11 @@ export class DoubleLinkedList
                     this.Add((input as number[])[i]);
                 }
             }
+            else{
+                this._root=null;
+                this._tail=null;
+                this._length=0;
+            }
         }
     }
 
@@ -250,6 +255,25 @@ export class DoubleLinkedList
         else return this;
     }
 
+     GetIndexByValue(value:number):number{
+        let index = -1;
+        if (this._length == 0){
+            return index;
+        }
+        if (this._root.Value == value && this._length==1){
+            return index = 0;
+        }
+        let tmp = this._root;
+        for (let i=0; i < this._length; i++){
+            if (tmp.Value == value)
+            {
+                return i
+            }
+            tmp = tmp.Next;
+        }
+        return index;
+    }
+
     toArray() {
         const nodes = [];
       
@@ -267,7 +291,7 @@ export class DoubleLinkedList
 
 
 
-let arr = [1, 2, 3, 4];
+let arr = [1];
 
 let myList = new DoubleLinkedList(arr);
-console.log(myList.DeleteByIndex(2));
+console.log(myList.GetIndexByValue(2));
